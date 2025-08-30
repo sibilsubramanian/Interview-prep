@@ -107,3 +107,80 @@ But you must still prevent XSS, because XSS can steal JWTs.
 ✅ Use HTTPS everywhere.
 
 ✅ Avoid storing JWTs in localStorage (vulnerable to XSS). Prefer httpOnly cookies + CSRF token.
+
+# How to design a large-scale React app (folder structure, atomic design).
+"I usually structure React projects using a hybrid approach. For the UI, I follow Atomic Design — breaking components into atoms, molecules, organisms, templates, and pages, so the design system stays reusable and consistent. For the business logic, I use a feature-based structure where each domain, like auth or products, has its own components, hooks, services, and Redux slice. This keeps UI and logic clearly separated, makes the codebase easy to scale, and helps different teams work in parallel without conflicts."
+<img width="479" height="262" alt="Screenshot 2025-08-30 at 3 58 28 PM" src="https://github.com/user-attachments/assets/64b456b2-361c-4c9e-9ff7-f3ad13cec62c" />
+
+```
+src/
+ ├── api/                         
+ │    ├── axiosClient.js          # Axios instance with interceptors
+ │    └── authApi.js              # Example API service
+ │
+ ├── assets/                      
+ │    ├── images/
+ │    │    └── logo.png
+ │    └── styles/
+ │         └── global.css
+ │
+ ├── components/                  # Atomic Design UI (shared across app)
+ │    ├── atoms/
+ │    │    ├── Button.jsx
+ │    │    ├── Input.jsx
+ │    │    └── Avatar.jsx
+ │    │
+ │    ├── molecules/
+ │    │    ├── SearchBar.jsx
+ │    │    └── CardHeader.jsx
+ │    │
+ │    ├── organisms/
+ │    │    ├── Navbar.jsx
+ │    │    └── Sidebar.jsx
+ │    │
+ │    ├── templates/
+ │    │    ├── AuthLayout.jsx
+ │    │    └── DashboardLayout.jsx
+ │    │
+ │    └── pages/
+ │         ├── HomePage.jsx
+ │         ├── LoginPage.jsx
+ │         └── NotFoundPage.jsx
+ │
+ ├── features/                    # Feature-based business logic
+ │    ├── auth/
+ │    │    ├── components/
+ │    │    │    └── LoginForm.jsx
+ │    │    ├── hooks/
+ │    │    │    └── useAuth.js
+ │    │    ├── services.js        # login/register API calls
+ │    │    ├── slice.js           # authSlice (Redux Toolkit)
+ │    │    └── index.jsx          # Export for routes
+ │    │
+ │    └── products/
+ │         ├── components/
+ │         │    └── ProductCard.jsx
+ │         ├── hooks/
+ │         │    └── useProducts.js
+ │         ├── services.js
+ │         ├── slice.js
+ │         └── index.jsx
+ │
+ ├── hooks/                       
+ │    ├── useDebounce.js
+ │    └── useFetch.js
+ │
+ ├── routes/                      
+ │    └── AppRoutes.jsx
+ │
+ ├── store/                       
+ │    ├── store.js
+ │    └── rootReducer.js
+ │
+ ├── utils/                       
+ │    ├── constants.js
+ │    └── formatDate.js
+ │
+ ├── App.jsx
+ └── main.jsx                     
+
