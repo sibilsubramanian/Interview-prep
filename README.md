@@ -7,7 +7,7 @@ https://blog.algomaster.io/p/20-patterns-to-master-dynamic-programming
 
 # How to prevent XRR attack in NodeJS and ReactJS
 ✅ How to Prevent CSRF in Node.js and React
-1. Use CSRF Tokens
+1. Use CSRF(Cross-Site request forgery) Tokens
 
 The server generates a unique CSRF token for each session/request.
 
