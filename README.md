@@ -1,10 +1,8 @@
-# Interview-prep
-Created just for the interview preparation
 # 15 leetcode pattern
 https://blog.algomaster.io/p/15-leetcode-patterns
 # 20 patterns to follow dynamic programming
 https://blog.algomaster.io/p/20-patterns-to-master-dynamic-programming
-
+# React-JS
 # How to prevent XRR attack in NodeJS and ReactJS
 ✅ How to Prevent CSRF in Node.js and React
 1. Use CSRF(Cross-Site request forgery) Tokens
@@ -40,7 +38,7 @@ app.post("/process", csrfProtection, (req, res) => {
 ```
 
 On the React side, fetch the CSRF token and send it in headers:
-```
+```js
 const token = await fetch("/form").then(res => res.json());
 
 fetch("/process", {
@@ -55,7 +53,7 @@ fetch("/process", {
 2. Use SameSite Cookies
 
 Set cookies with SameSite=strict or lax to prevent them from being sent on cross-origin requests.
-```
+```js
 app.use(
   session({
     secret: "secret",
@@ -80,7 +78,7 @@ Server checks cookie value == header value.
 Reject requests that don’t come from your own domain.
 
 Example in Express:
-```
+```js
 app.use((req, res, next) => {
   const allowedOrigin = "https://yourdomain.com";
   const origin = req.get("origin") || "";
@@ -183,4 +181,58 @@ src/
  │
  ├── App.jsx
  └── main.jsx                     
+```
+# React `useTransition` Hook
+
+The `useTransition` hook in React (introduced in React 18) helps manage **state transitions without blocking the UI**.  
+It’s useful when you want to separate **urgent updates** (like typing) from **non-urgent updates** (like rendering a huge list).
+
+---
+
+## Syntax
+
+```jsx
+const [isPending, startTransition] = useTransition();
+```
+isPending → A boolean flag that is true while the transition is ongoing.
+startTransition(callback) → Wrap your non-urgent update inside this function.
+```jsx
+import React, { useState, useTransition } from "react";
+
+export default function SearchFilter() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [isPending, startTransition] = useTransition();
+
+  const items = Array.from({ length: 10000 }, (_, i) => `Item ${i}`);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+
+    // Wrap the heavy update in a transition
+    startTransition(() => {
+      const filtered = items.filter((item) => item.includes(value));
+      setResults(filtered);
+    });
+  };
+
+  return (
+    <div>
+      <input value={query} onChange={handleChange} placeholder="Search..." />
+      {isPending && <p>Loading...</p>}
+      <ul>
+        {results.map((r) => (
+          <li key={r}>{r}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+## How It Works
+
+- Urgent update → setQuery (keeps typing responsive).
+- Non-urgent update → setResults (filtering a large dataset).
+- startTransition lets React prioritize urgent updates and defer the heavy ones.
 
