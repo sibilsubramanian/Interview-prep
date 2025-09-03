@@ -236,3 +236,175 @@ export default function SearchFilter() {
 - Non-urgent update → setResults (filtering a large dataset).
 - startTransition lets React prioritize urgent updates and defer the heavy ones.
 
+# React Interview Preparation – Accenture L9 (Application Developer)
+
+This document provides a structured set of **React interview questions with sample answers** tailored for **Manager Level 9** interviews at Accenture.  
+Focus areas: **React fundamentals, architecture, performance optimization, security, and leadership-level responsibilities.**
+
+---
+
+## 1. Core React Concepts
+
+### Q: What is reconciliation in React, and how does the diffing algorithm work?  
+**A:**  
+Reconciliation is the process React uses to update the DOM efficiently. It compares the Virtual DOM with the previous render using a **diffing algorithm**. Instead of re-rendering the entire UI, React only updates nodes that have changed. The algorithm assumes:
+- Elements with the same type are updated in place.  
+- Keys help React match children in lists to avoid unnecessary re-renders.  
+
+---
+
+### Q: What is React Fiber architecture?  
+**A:**  
+Fiber is React’s new reconciliation engine (introduced in React 16).  
+It breaks rendering into **units of work** and allows React to pause, prioritize, and resume rendering tasks.  
+This enables features like **concurrent mode, Suspense, and better responsiveness** in large applications.
+
+---
+
+### Q: When to use `useMemo`, `useCallback`, and `React.memo`?  
+**A:**  
+- `useMemo`: Memoizes expensive calculations so they don’t re-run on every render.  
+- `useCallback`: Memoizes a function reference to avoid re-creating it on every render (useful for child components).  
+- `React.memo`: Prevents re-rendering of a functional component if props haven’t changed.  
+They are mainly **performance optimizations** to avoid unnecessary renders.
+
+---
+
+## 2. State Management
+
+### Q: Compare Redux vs Context API. When should you choose one?  
+**A:**  
+- **Context API**: Best for small apps or passing global data (theme, auth state). Lightweight, but re-renders consumers frequently.  
+- **Redux**: Best for **large-scale apps** with complex state logic, middlewares, and debugging needs. Redux DevTools and middleware support make it ideal for enterprise apps.  
+👉 At scale, I’d choose **Redux Toolkit** as it reduces boilerplate and enforces best practices.  
+
+---
+
+### Q: How do you handle async actions in Redux?  
+**A:**  
+- **Redux Thunk**: Middleware for handling async calls inside actions.  
+- **Redux Saga**: More scalable, manages complex async workflows using generator functions.  
+- **RTK Query**: Built-in data fetching & caching in Redux Toolkit, reduces boilerplate.  
+👉 I prefer **RTK Query** for modern apps as it simplifies API management.
+
+---
+
+## 3. Performance Optimization
+
+### Q: How do you optimize rendering of large lists?  
+**A:**  
+Use **windowing/virtualization** libraries like `react-window` or `react-virtualized`.  
+Instead of rendering all items, only the visible portion of the list is rendered.  
+This reduces DOM nodes drastically and improves performance.
+
+---
+
+### Q: How do you troubleshoot a React app that became slow in production?  
+**A:**  
+1. Use **React Profiler** to detect slow components.  
+2. Check unnecessary re-renders (missing `useMemo`, `React.memo`).  
+3. Audit API calls (debouncing, caching with React Query).  
+4. Use **code splitting** for large bundles.  
+5. Run Lighthouse/Chrome DevTools for bottlenecks (e.g., blocking scripts).  
+👉 In production, I’d also use **Sentry/Datadog** to monitor performance regressions.
+
+---
+
+## 4. Architecture & Design
+
+### Q: How would you design a scalable React project?  
+**A:**  
+- Use **Atomic Design** principles (atoms → molecules → organisms → pages).  
+- Implement **feature-based folder structure** instead of monolithic components.  
+- Use **Redux Toolkit / React Query** for state management.  
+- Enforce standards with **ESLint, Prettier, TypeScript**.  
+- Implement CI/CD with unit tests and integration tests.  
+👉 This ensures maintainability and scalability for enterprise projects.
+
+---
+
+### Q: How do you handle micro-frontends in React?  
+**A:**  
+- Split app into independently deployable modules (e.g., Module Federation in Webpack).  
+- Each team owns its micro-frontend (auth, dashboard, payments).  
+- Use **shared design systems** for consistency.  
+- Ensure **independent deployments** but maintain **integration contracts**.  
+👉 This enables parallel development and scalability in large organizations.
+
+---
+
+## 5. Security
+
+### Q: How do you prevent XSS in React?  
+**A:**  
+- By default, React escapes values to prevent injection.  
+- Avoid using `dangerouslySetInnerHTML`. If needed, sanitize input using libraries like `DOMPurify`.  
+- Use security headers (Content Security Policy).  
+👉 Ensure backend also validates/sanitizes inputs.
+
+---
+
+### Q: How do you handle authentication & authorization in React?  
+**A:**  
+- Use **JWT** or **OAuth 2.0** for authentication.  
+- Store tokens securely (HTTP-only cookies preferred).  
+- Implement **role-based access control (RBAC)** in routes.  
+- Protect sensitive routes with **private route wrappers**.  
+
+---
+
+## 6. Advanced Topics
+
+### Q: What is Suspense in React?  
+**A:**  
+Suspense allows React to **pause rendering** while waiting for data or resources.  
+Example: Show a fallback (spinner) while data is loading.  
+Future use cases include **data fetching (with React Query / Relay)**.  
+👉 It improves user experience by making loading states predictable.
+
+---
+
+### Q: What are Error Boundaries?  
+**A:**  
+- Special React components that catch JavaScript errors in children.  
+- Prevent the entire app from crashing.  
+- Implemented using `componentDidCatch` and `getDerivedStateFromError`.  
+👉 Example: Show a fallback UI if a widget fails to load.  
+
+---
+
+## 7. Leadership & Managerial Focus
+
+### Q: How do you ensure code quality in a React team?  
+**A:**  
+- Define **coding standards** (ESLint, Prettier).  
+- Implement **PR reviews and pair programming**.  
+- Use **Storybook** for reusable UI components.  
+- Automate testing (Jest, React Testing Library, Cypress).  
+- Monitor production apps with Sentry/Datadog.  
+
+---
+
+### Q: Tell me about a time you mentored junior developers in React.  
+**A:**  
+- Conducted knowledge-sharing sessions on React hooks & Redux.  
+- Reviewed code to ensure best practices.  
+- Introduced **pair programming** to improve onboarding.  
+- Helped juniors debug performance issues by using React Profiler.  
+👉 Result: Faster onboarding, fewer bugs, higher team productivity.  
+
+---
+
+## 8. Quick Reference – Key Tools & Libraries
+- **State Management:** Redux Toolkit, Context API, React Query, SWR  
+- **Performance:** React Profiler, react-window, memoization hooks  
+- **Styling:** CSS Modules, Styled Components, Tailwind CSS  
+- **Security:** Helmet, DOMPurify, JWT handling best practices  
+- **Monitoring:** Lighthouse, Sentry, LogRocket, Datadog  
+
+---
+
+✅ **Tip for Accenture L9 Interviews:**  
+Don’t just answer **what** or **how** — also explain **why** (trade-offs, scalability, maintainability).  
+They expect a **leader mindset**: balancing technical depth with team and product impact.
+
